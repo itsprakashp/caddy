@@ -1,5 +1,8 @@
 name: Caddy Image Build
 
+on:
+  workflow_dispatch:
+
 env:
   CADDY_VERSION: 2.7.6
 
