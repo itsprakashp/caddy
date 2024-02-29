@@ -3,6 +3,9 @@ name: Build
 on:
   workflow_dispatch:
 
+env:
+  CADDY_VERSION: 2.7.6
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -19,11 +22,11 @@ jobs:
         with:
           username: ${{ secrets.DOCKER_HUB_USER }}
           password: ${{ secrets.DOCKER_HUB_PASS }}
-      - 
-        name: Build and push
-        uses: docker/build-push-action@v5
-        with:
-          context: github.com/itsprakashp/caddy
-          platforms: linux/amd64,linux/arm64
-          push: true
-          tags: ${{ secrets.DOCKER_HUB_USER }}/caddy:latest
+      -
+        name: Build arm-64
+        run: docker buildx build \
+             --platform linux/arm64 \
+             --tag ${{ secrets.DOCKER_HUB_USER }}/caddy:${{ env.CADDY_VERSION }} \
+             --tag ${{ secrets.DOCKER_HUB_USER }}/caddy:latest \
+             --push \
+             .
