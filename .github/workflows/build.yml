@@ -24,8 +24,4 @@ jobs:
           password: ${{ secrets.DOCKER_HUB_PASS }}
       -
         name: Build arm64
-        run: docker buildx build github.com/itsprakashp/caddy \
-             --platform linux/arm64 \
-             --tag ${{ secrets.DOCKER_HUB_USER }}/caddy:${{ env.CADDY_VERSION }} \
-             --tag ${{ secrets.DOCKER_HUB_USER }}/caddy:latest \
-             --push
+        run: docker buildx build github.com/itsprakashp/caddy --platform linux/arm64 --tag ${{ secrets.DOCKER_HUB_USER }}/caddy:${{ env.CADDY_VERSION }} --tag ${{ secrets.DOCKER_HUB_USER }}/caddy:latest --push
