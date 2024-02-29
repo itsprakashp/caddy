@@ -20,20 +20,5 @@ jobs:
         name: Create Buildx builder
         run: docker buildx create --use
       -
-        name: Build amd64
-        run: docker buildx build github.com/itsprakashp/caddy --platform linux/amd64 --tag ${{ secrets.DOCKER_HUB_USER }}/caddy:${{ env.CADDY_VERSION }}-amd64 --tag ${{ secrets.DOCKER_HUB_USER }}/caddy:latest-amd64 --push
-      -
-        name: Build arm64/v8
-        run: docker buildx build github.com/itsprakashp/caddy --platform linux/arm64/v8 --tag ${{ secrets.DOCKER_HUB_USER }}/caddy:${{ env.CADDY_VERSION }}-arm64 --tag ${{ secrets.DOCKER_HUB_USER }}/caddy:latest-arm64 --push
-      -
-        name: Build arm/v7
-        run: docker buildx build github.com/itsprakashp/caddy --platform linux/arm/v7 --tag ${{ secrets.DOCKER_HUB_USER }}/caddy:${{ env.CADDY_VERSION }}-armv7 --tag ${{ secrets.DOCKER_HUB_USER }}/caddy:latest-armv7 --push
-      -
-        name: Build arm/v6
-        run: docker buildx build github.com/itsprakashp/caddy --platform linux/arm/v6 --tag ${{ secrets.DOCKER_HUB_USER }}/caddy:${{ env.CADDY_VERSION }}-armv6 --tag ${{ secrets.DOCKER_HUB_USER }}/caddy:latest-armv6 --push
-      -
-        name: Create Manifest
-        run: docker manifest create ${{ secrets.DOCKER_HUB_USER }}/caddy:latest --amend ${{ secrets.DOCKER_HUB_USER }}/caddy:latest-amd64 --amend ${{ secrets.DOCKER_HUB_USER }}/caddy:latest-arm64 --amend ${{ secrets.DOCKER_HUB_USER }}/caddy:latest-armv7 --amend ${{ secrets.DOCKER_HUB_USER }}/caddy:latest-armv6
-      -
-        name: Push Manifest
-        run: docker manifest push ${{ secrets.DOCKER_HUB_USER }}/caddy:latest
+        name: Build Image and Push
+        run: docker buildx build github.com/itsprakashp/caddy --platform linux/amd64,linux/arm64/v8,linux/arm/v7,linux/arm/v6 --tag ${{ secrets.DOCKER_HUB_USER }}/caddy:${{ env.CADDY_VERSION }} --tag ${{ secrets.DOCKER_HUB_USER }}/caddy:latest --push
