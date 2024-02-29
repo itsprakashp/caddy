@@ -17,19 +17,16 @@ jobs:
           username: ${{ secrets.DOCKER_HUB_USER }}
           password: ${{ secrets.DOCKER_HUB_PASS }}
       -
-        name: Create Buildx builder
-        run: docker buildx create --use
-      -
         name: Build amd64
-        run: docker buildx build github.com/itsprakashp/caddy --platform linux/amd64 --tag ${{ secrets.DOCKER_HUB_USER }}/caddy:${{ env.CADDY_VERSION }}-amd64 --tag ${{ secrets.DOCKER_HUB_USER }}/caddy:latest-amd64 --push
+        run: docker buildx create --use && docker buildx build github.com/itsprakashp/caddy --platform linux/amd64 --tag ${{ secrets.DOCKER_HUB_USER }}/caddy:${{ env.CADDY_VERSION }}-amd64 --tag ${{ secrets.DOCKER_HUB_USER }}/caddy:latest-amd64 --push
 
       -
         name: Build arm64v8
-        run: docker buildx build github.com/itsprakashp/caddy --platform linux/arm64v8 --tag ${{ secrets.DOCKER_HUB_USER }}/caddy:${{ env.CADDY_VERSION }}-arm64v8 --tag ${{ secrets.DOCKER_HUB_USER }}/caddy:latest-arm64v8 --push
+        run: docker buildx create --use && docker buildx build github.com/itsprakashp/caddy --platform linux/arm64v8 --tag ${{ secrets.DOCKER_HUB_USER }}/caddy:${{ env.CADDY_VERSION }}-arm64v8 --tag ${{ secrets.DOCKER_HUB_USER }}/caddy:latest-arm64v8 --push
 
       -
         name: Build arm32v7
-        run: docker buildx build github.com/itsprakashp/caddy --platform linux/arm32v7 --tag ${{ secrets.DOCKER_HUB_USER }}/caddy:${{ env.CADDY_VERSION }}-arm32v7 --tag ${{ secrets.DOCKER_HUB_USER }}/caddy:latest-arm32v7 --push
+        run: docker buildx create --use && docker buildx build github.com/itsprakashp/caddy --platform linux/arm32v7 --tag ${{ secrets.DOCKER_HUB_USER }}/caddy:${{ env.CADDY_VERSION }}-arm32v7 --tag ${{ secrets.DOCKER_HUB_USER }}/caddy:latest-arm32v7 --push
 
       -
         name: Create Manifest
