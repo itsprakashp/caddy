@@ -1,5 +1,8 @@
 name: Caddy Image Build
 
+env:
+  CADDY_VERSION: 2.7.6
+
 on:
   workflow_dispatch:
 
@@ -15,4 +18,4 @@ jobs:
           password: ${{ secrets.DOCKER_HUB_PASS }}
       -
         name: Build amd64
-        run: docker buildx create --use && docker buildx build github.com/itsprakashp/caddy --platform linux/amd64 --tag ${{ secrets.DOCKER_HUB_USER }}/caddy:${{ vars.CADDY_VERSION }} --tag ${{ secrets.DOCKER_HUB_USER }}/caddy:latest --push
+        run: docker buildx create --use && docker buildx build github.com/itsprakashp/caddy --platform linux/amd64 --tag ${{ secrets.DOCKER_HUB_USER }}/caddy:${{ env.CADDY_VERSION }} --tag ${{ secrets.DOCKER_HUB_USER }}/caddy:latest --push
