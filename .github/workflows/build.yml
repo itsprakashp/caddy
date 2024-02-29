@@ -23,7 +23,7 @@ jobs:
           username: ${{ secrets.DOCKER_HUB_USER }}
           password: ${{ secrets.DOCKER_HUB_PASS }}
       -
-        name: Build arm-64
+        name: Build arm64
         run: docker buildx build \
              --platform linux/arm64 \
              --tag ${{ secrets.DOCKER_HUB_USER }}/caddy:${{ env.CADDY_VERSION }} \
