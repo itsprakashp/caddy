@@ -17,5 +17,24 @@ jobs:
           username: ${{ secrets.DOCKER_HUB_USER }}
           password: ${{ secrets.DOCKER_HUB_PASS }}
       -
-        name: Build arm64
-        run: docker buildx create --use && docker buildx build github.com/itsprakashp/caddy --platform linux/arm64 --tag ${{ secrets.DOCKER_HUB_USER }}/caddy:${{ env.CADDY_VERSION }} --tag ${{ secrets.DOCKER_HUB_USER }}/caddy:latest --push
+        name: Create Buildx builder
+        run: docker buildx create --use
+      -
+        name: Build amd64
+        run: docker buildx build github.com/itsprakashp/caddy --platform linux/amd64 --tag ${{ secrets.DOCKER_HUB_USER }}/caddy:${{ env.CADDY_VERSION }}-amd64 --tag ${{ secrets.DOCKER_HUB_USER }}/caddy:latest-amd64 --push
+
+      -
+        name: Build arm64v8
+        run: docker buildx build github.com/itsprakashp/caddy --platform linux/arm64v8 --tag ${{ secrets.DOCKER_HUB_USER }}/caddy:${{ env.CADDY_VERSION }}-arm64v8 --tag ${{ secrets.DOCKER_HUB_USER }}/caddy:latest-arm64v8 --push
+
+      -
+        name: Build arm32v7
+        run: docker buildx build github.com/itsprakashp/caddy --platform linux/arm32v7 --tag ${{ secrets.DOCKER_HUB_USER }}/caddy:${{ env.CADDY_VERSION }}-arm32v7 --tag ${{ secrets.DOCKER_HUB_USER }}/caddy:latest-arm32v7 --push
+
+      -
+        name: Create Manifest
+        run: docker manifest create ${{ secrets.DOCKER_HUB_USER }}/caddy:latest --amend ${{ secrets.DOCKER_HUB_USER }}/caddy:latest-amd64 --amend ${{ secrets.DOCKER_HUB_USER }}/caddy:latest-arm64v8 --amend ${{ secrets.DOCKER_HUB_USER }}/caddy:latest-arm32v7
+
+      -
+        name: Push Manifest
+        run: docker manifest push ${{ secrets.DOCKER_HUB_USER }}/caddy:latest
