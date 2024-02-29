@@ -1,7 +1,4 @@
-name: Build
-
-on:
-  workflow_dispatch:
+name: Caddy Image Build
 
 env:
   CADDY_VERSION: 2.7.6
